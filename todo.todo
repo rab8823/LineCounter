@@ -1,0 +1,6 @@
+LineCounter Todo:
+ ☐ Put comment definitions in settings file
+ ☐ Make the plugin not select all text when running
+ ☐ Add default support for other langs
+ ☐ Figure out which lang def to use by file ext
+ ☐ Allow users to add their own custom langs?
