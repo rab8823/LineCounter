@@ -5,26 +5,33 @@ class CountLinesCommand(sublime_plugin.TextCommand):
         self.view.run_command("select_all")
 
         selection = self.view.sel()[0]
-        bufferText = self.view.substr(selection).split('\n')
+        bufferText = self.view.substr(selection)
+        isInCommentBlock = False
+        sloc = count_lines(bufferText, "//", "/*", "*/")
+
+        print sloc
+
+    def count_lines(text, singleLineComment, multilineCommentStart, multilineCommentEnd):
+        byLine = text.split('\n')
         isInCommentBlock = False
         sloc = 0
         for line in bufferText:
             trimmed = line.strip()
             if trimmed == "":
                 continue
-            if isInCommentBlock and trimmed.endswith("*/"):
+            if isInCommentBlock and trimmed.endswith(multilineCommentEnd):
                 isInCommentBlock = False
                 continue
             if isInCommentBlock:
                 continue
 
-            if trimmed.startswith("//"):
+            if trimmed.startswith(singleLineComment):
                 continue
 
-            if  trimmed.startswith("/*"):
+            if  trimmed.startswith(multilineCommentStart):
                 isInCommentBlock = True
                 continue
 
             sloc += 1
 
-        print sloc
+        return sloc;
